@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 });
 
 if (!fs.existsSync(dbPath)) {
-  console.log('${getDateTime()}: creating new file: state.db')
+  console.log(`${getDateTime()}: creating new file: state.db`)
   fs.writeFileSync(dbPath, '0', { encoding: 'utf8'});
 }
 
