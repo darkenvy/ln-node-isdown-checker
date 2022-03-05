@@ -12,3 +12,15 @@ I needed a tracker that would tell me if the node went down for over an hour. Si
 
 ## Email provider
 I use mail.ee as it was easy to set up and works well with node-mailer. 
+
+## Low Memory Mode
+I use a low-memory VPN. You will need to set the cieling of NodeJS's memory allotment.
+
+`node --max-old-space-size=224`
+
+## Crontab
+Check every 5 minutes. If it is down for an hour, send an email. Then do the same for every 6 hours thereafter. Eg: the second email will be at hour 7.
+
+`crontab -e`
+
+`*/5 * * * * /usr/bin/node --max-old-space-size=224 /home/darkenvy/ln-node-isdown-checker/index.js >> /home/darkenvy/ln-node-isdown-checker/error.log`
