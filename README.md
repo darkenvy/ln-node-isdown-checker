@@ -23,4 +23,4 @@ Check every 5 minutes. If it is down for an hour, send an email. Then do the sam
 
 `crontab -e`
 
-`*/5 * * * * /usr/bin/node --max-old-space-size=224 /home/darkenvy/ln-node-isdown-checker/index.js >> /home/darkenvy/ln-node-isdown-checker/error.log`
+`*/5 * * * * cd /home/darkenvy/ln-node-isdown-checker/ && /usr/bin/node --max-old-space-size=224 /home/darkenvy/ln-node-isdown-checker/index.js >> /home/darkenvy/ln-node-isdown-checker/error.log`
