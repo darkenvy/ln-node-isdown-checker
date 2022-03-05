@@ -75,7 +75,7 @@ async function main() {
   saveCounter(counter);
   
   // if down for 1 hour. and every 6 hours thereafter
-  if (counter === 60 || counter % 360 === 60) {
+  if (counter === 12 || counter % 72 === 60) {
     sendEmail({
       from: process.env.EMAIL_USERNAME,
       to: process.env.TO_EMAIL_ADDRESS,
