@@ -74,13 +74,15 @@ async function main() {
   counter += 1;
   saveCounter(counter);
   
+  // configured for running at 5 minute cron intervals
   // if down for 1 hour. and every 6 hours thereafter
   if (counter === 12 || counter % 72 === 60) {
+    const offlineFor = counter * 5;
     sendEmail({
       from: process.env.EMAIL_USERNAME,
       to: process.env.TO_EMAIL_ADDRESS,
       subject: `⚡ Lightning Node Offline 🛑 (${getDate()})`,
-      text: `Server has been offline for ${counter + 1} minutes.`,
+      text: `Server has been offline for ${offlineFor} minutes.`,
     });
   }
 }
