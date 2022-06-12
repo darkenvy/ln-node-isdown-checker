@@ -3,11 +3,13 @@ import nodemailer from 'nodemailer';
 import checkPort from 'is-port-reachable';
 import fs from 'fs';
 import path from 'path';
+import Pushover from 'pushover-notifications';
 
 global.__dirname = process.cwd(); // polyfill for es6
 
 const host = process.env.HOST;
 const port = process.env.PORT;
+const pushoverPriority = parseInt(process.env.PUSHOVER_PRIORITY) || 0;
 const dbPath = path.join(__dirname, 'state.db');
 
 const transporter = nodemailer.createTransport({
@@ -18,6 +20,11 @@ const transporter = nodemailer.createTransport({
   },
   tls: { rejectUnauthorized: false }, // do not fail on invalid certs
 });
+
+const pushover = new Pushover({
+  user: process.env.PUSHOVER_USER,
+  token: process.env.PUSHOVER_TOKEN,
+})
 
 if (!fs.existsSync(dbPath)) {
   console.log(`${getDateTime()}: creating new file: state.db`)
@@ -78,11 +85,20 @@ async function main() {
   // if down for 1 hour. and every 6 hours thereafter
   if (counter === 12 || counter % 72 === 60) {
     const offlineFor = counter * 5;
+    const subject = `⚡ Lightning Node Offline 🛑 (${getDate()})`;
+    const text = `Server has been offline for ${offlineFor} minutes.`;
+
     sendEmail({
       from: process.env.EMAIL_USERNAME,
       to: process.env.TO_EMAIL_ADDRESS,
-      subject: `⚡ Lightning Node Offline 🛑 (${getDate()})`,
-      text: `Server has been offline for ${offlineFor} minutes.`,
+      subject,
+      text,
+    });
+
+    pushover.send({
+      title: subject,
+      message: text,	// required
+      priority: pushoverPriority,
     });
   }
 }

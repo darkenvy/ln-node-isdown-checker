@@ -13,6 +13,7 @@
     "dotenv": "^16.0.0",
     "is-port-reachable": "^4.0.0",
     "nodemailer": "^6.7.2",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pushover-notifications": "^1.2.2"
   }
 }
